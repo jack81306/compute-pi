@@ -1,5 +1,9 @@
 #include <stdio.h>
+#ifndef LEIBNIZ
 #include "computepi.h"
+#else
+#include "leibnizPI.h"
+#endif
 
 int main(int argc, char const *argv[])
 {
