@@ -18,10 +18,13 @@ double compute_pi_openmp(size_t N,int threads)
 {
     double pi = 0.0;
     double  sign=1;
-#pragma omg parallel for num_threads(threads) reduction(pi)
-    for(int i=0; i<N; i++) {
-        sign = i%2==0 ? 1:-1;
-        pi+=(double)(sign/(1+2*i));
+    #pragma omp parallel num_threads(threads)
+    {
+        #pragma omp for private(sign) reduction(+:pi)
+        for(int i=0; i<N; i++) {
+            sign = i%2==0 ? 1:-1;
+            pi+=(double)(sign/(1+2*i));
+        }
     }
     return 4*pi;
 }

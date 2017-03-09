@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#ifndef LEIBNIZ
 #include "computepi.h"
+#else
+#include "leibnizPI.h"
+#endif
 
 #define CLOCK_ID CLOCK_MONOTONIC_RAW
 #define ONE_SEC 1000000000.0

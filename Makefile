@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O0 -std=gnu99 -Wall -fopenmp -mavx
+CFLAGS = -O0 -std=gnu99 -fopenmp -mavx -Wall
 EXECUTABLE = \
 	time_test_baseline time_test_openmp_2 time_test_openmp_4 \
 	time_test_avx time_test_avxunroll \
@@ -21,11 +21,11 @@ default: $(GIT_HOOKS) computepi.o
 
 leibniz: $(GIT_HOOKS) leibnizPI.o
 	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DBASELINE -o time_test_baseline
-	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DOPENMP_2 -fopenmp -o time_test_openmp_2
-	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DOPENMP_4 -fopenmp -o time_test_openmp_4
+	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DOPENMP_2 -o time_test_openmp_2
+	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DOPENMP_4 -o time_test_openmp_4
 	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DAVX -o time_test_avx
 	$(CC) $(CFLAGS) leibnizPI.o time_test.c -DLEIBNIZ -DAVXUNROLL -o time_test_avxunroll
-	$(CC) $(CFLAGS) leibnizPI.o benchmark_clock_gettime.c -o benchmark_clock_gettime
+	$(CC) $(CFLAGS) leibnizPI.o benchmark_clock_gettime.c -DLEIBNIZ -o benchmark_clock_gettime
 
 
 .PHONY: clean default
@@ -48,7 +48,7 @@ checkleibniz: leibniz
 	time ./time_test_avxunroll
 
 
-gencsv: default
+gencsv:
 	for i in `seq 100 100 100000`; do \
 		printf "%d," $$i;\
 		./benchmark_clock_gettime $$i; \
